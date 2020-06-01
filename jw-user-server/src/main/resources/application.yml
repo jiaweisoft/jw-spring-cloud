@@ -1,14 +1,14 @@
-server:
-  port: 8080
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}
     instance-id: ${eureka.instance.hostname}:${server.port}
+    lease-renewal-interval-in-seconds: 30 #æ¯30ç§’ä¸€æ¬¡renewal
+    lease-expiration-duration-in-seconds: 90 #90ç§’æ²¡æœ‰rennewalå‰”é™¤
   client:
-    register-with-eureka: true  #·şÎñ×¢²á¿ª¹Ø
-    fetch-registry: true  #·şÎñ·¢ÏÖ¿ª¹Ø
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+      default-zone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
 
 
 
@@ -24,7 +24,7 @@ eureka:
 
 spring:
   application:
-    name: user-server  #Ö¸¶¨·şÎñÃû
+    name: user-server
   http:
     encoding:
       force: true
