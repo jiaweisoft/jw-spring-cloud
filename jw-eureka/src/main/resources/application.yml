@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: eureka-ha
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${eureka.instance.hostname}:${server.port}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone:
+  server:
+    enable-self-preservation: true
+    eviction-interval-timer-in-ms: 1000
