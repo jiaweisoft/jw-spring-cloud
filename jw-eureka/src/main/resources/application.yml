@@ -11,5 +11,5 @@ eureka:
     service-url:
       default-zone:
   server:
-    enable-self-preservation: true
+    enable-self-preservation: false
     eviction-interval-timer-in-ms: 1000
