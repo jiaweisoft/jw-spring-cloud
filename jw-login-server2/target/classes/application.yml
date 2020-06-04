@@ -4,5 +4,3 @@ eureka:
     fetch-registry: true  #服务发现开关
     service-url:
       defaultZone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/,http://eureka3:8763/eureka/
-
-

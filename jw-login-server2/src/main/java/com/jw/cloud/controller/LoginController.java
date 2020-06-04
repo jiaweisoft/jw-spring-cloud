@@ -1,8 +1,8 @@
 package com.jw.cloud.controller;
 
 import com.jw.cloud.entry.AcMenu;
+import com.jw.cloud.feign.UserFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,13 +20,13 @@ import java.util.List;
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
-    private RestTemplate restTemplate;
+    private UserFeignClient userFeignClient;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
 
     @GetMapping("/list")
     public List getUser() {
-        List<AcMenu> list = restTemplate.getForObject("http://USER-SERVER/user/list", List.class);
+        List<AcMenu> list = userFeignClient.getUserList();
         return list;
     }
 }
