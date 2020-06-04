@@ -27,8 +27,6 @@ public class LoginController {
     @GetMapping("/list")
     public List getUser() {
         List<AcMenu> list = restTemplate.getForObject("http://USER-SERVER/user/list", List.class);
-        ServiceInstance serviceInstance = this.loadBalancerClient.choose("USER-SERVER");
-        System.out.println("#################################"+serviceInstance);
         return list;
     }
 }

@@ -2,7 +2,6 @@ package com.jw.cloud.controller;
 
 import com.jw.cloud.entry.AcMenu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +22,10 @@ public class LoginController {
     private RestTemplate restTemplate;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
-    @GetMapping("/listwww")
+
+    @GetMapping("/list")
     public List getUser() {
-
         List<AcMenu> list = restTemplate.getForObject("http://USER-SERVER/user/list", List.class);
-        ServiceInstance serviceInstance = this.loadBalancerClient.choose("USER-SERVER");
-
         return list;
     }
 }
