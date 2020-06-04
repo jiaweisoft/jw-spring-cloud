@@ -12,7 +12,7 @@
     <modules>
         <module>jw-eureka</module>
         <module>jw-user-server</module>
-        <module>jw-login-server</module>
+        <module>jw-login-server2</module>
     </modules>
 
     <properties>

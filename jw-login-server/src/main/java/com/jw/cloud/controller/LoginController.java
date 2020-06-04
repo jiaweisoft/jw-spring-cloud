@@ -23,7 +23,7 @@ public class LoginController {
     private RestTemplate restTemplate;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
-    @GetMapping("/list")
+    @GetMapping("/listwww")
     public List getUser() {
 
         List<AcMenu> list = restTemplate.getForObject("http://USER-SERVER/user/list", List.class);

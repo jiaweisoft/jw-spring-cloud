@@ -1,17 +1,15 @@
+
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}
-    instance-id: ${eureka.instance.hostname}:${server.port}
-    lease-renewal-interval-in-seconds: 30 #每30秒一次renewal
-    lease-expiration-duration-in-seconds: 90 #90秒没有rennewal剔除
+    instance-id: ${eureka.instance.hostname}:----:${server.port}
+    lease-renewal-interval-in-seconds: 3 #每30秒一次renewal
+    lease-expiration-duration-in-seconds: 9 #90秒没有rennewal剔除
   client:
-    register-with-eureka: true
-    fetch-registry: true
     service-url:
-      default-zone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
-
-
-
+      default-zone: http://eureka1:8761/eureka/,http://eureka3:8763/eureka/，http://eureka3:8763/eureka/
+    healthcheck:
+      enabled: true
 
 
 
@@ -53,4 +51,7 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
+management:
+  endpoint:
+    health:
+      show-details: always
