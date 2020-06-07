@@ -1,6 +1,20 @@
+
+management:
+  endpoint:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: '*'
 eureka:
   client:
-    register-with-eureka: false  #服务注册开关
+    register-with-eureka: true  #服务注册开关
     fetch-registry: true  #服务发现开关
     service-url:
       defaultZone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/,http://eureka3:8763/eureka/
+feign:
+  hystrix:
+    enabled: true
+spring:
+  application:
+    name: LOGIN-SERVER

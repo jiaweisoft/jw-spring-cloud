@@ -2,13 +2,13 @@ package com.jw.cloud.controller;
 
 import com.jw.cloud.entry.AcMenu;
 import com.jw.cloud.feign.UserFeignClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,13 +20,12 @@ import java.util.List;
 @RequestMapping("/login")
 public class LoginController {
     @Autowired
-    private UserFeignClient userFeignClient;
-    @Autowired
-    private LoadBalancerClient loadBalancerClient;
+    UserFeignClient userFeignClient;
 
     @GetMapping("/list")
     public List getUser() {
         List<AcMenu> list = userFeignClient.getUserList();
         return list;
     }
+
 }

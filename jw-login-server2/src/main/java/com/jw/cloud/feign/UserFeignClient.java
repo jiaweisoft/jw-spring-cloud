@@ -2,7 +2,8 @@ package com.jw.cloud.feign;
 
 import com.jw.cloud.entry.AcMenu;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -12,8 +13,9 @@ import java.util.List;
  * @Description:
  */
 
-@FeignClient(name = "USER-SERVER")
+@FeignClient(name = "USER-SERVER", path = "/user", fallback = UserFeignFailBack.class)
 public interface UserFeignClient {
-    @GetMapping("/user/list")
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     List<AcMenu> getUserList();
 }

@@ -1,4 +1,3 @@
-
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}
@@ -55,3 +54,6 @@ management:
   endpoint:
     health:
       show-details: always
+    web:
+      exposure:
+        include: '*'
