@@ -17,6 +17,7 @@
         <module>jw-hystrix-dashboard</module>
         <module>jw-hystrix-turbine</module>
         <module>jw-gateway-zuul</module>
+        <module>jw-config</module>
     </modules>
 
     <properties>
