@@ -9,19 +9,7 @@ eureka:
       default-zone: http://eureka1:8761/eureka/,http://eureka3:8763/eureka/，http://eureka3:8763/eureka/
     healthcheck:
       enabled: true
-
-
-
-
-
-
-
-
-
-
 spring:
-  application:
-    name: user-server
   http:
     encoding:
       force: true

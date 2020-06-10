@@ -16,6 +16,7 @@
         <module>jw-login-server1</module>
         <module>jw-hystrix-dashboard</module>
         <module>jw-hystrix-turbine</module>
+        <module>jw-gateway-zuul</module>
     </modules>
 
     <properties>
