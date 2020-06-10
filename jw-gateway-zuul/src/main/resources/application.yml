@@ -7,22 +7,12 @@ eureka:
     health-check-url-path:
   client:
     service-url:
-      default-zone: http://eureka1:8761/eureka/,http://eureka3:8763/eureka/，http://eureka3:8763/eureka/
+      default-zone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
 spring:
   application:
     name: gateway-zuul
 zuul:
-  ignored-services: login-server #禁用该application 的路由
+  ignored-services: login-server
   routes:
-    user-server: user/** #
-    user-server1: user1/** #
-    # 具体serviceId 也就是application 具体配置如下
-    abc1:
-      path: user1/**
-      serviceId: user-server1
-    abc2:
-      path: user2/**
-      serviceId: user-server2
-    abc3:
-      path: user3/**
-      serviceId: user-server3
+    user-server: user/**
+    user-server1: user1/**

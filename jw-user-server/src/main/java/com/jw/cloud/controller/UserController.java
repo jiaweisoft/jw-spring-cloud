@@ -28,8 +28,8 @@ public class UserController {
     private EurekaClient eurekaClient;
     @GetMapping("/list")
     public List<AcMenu> list() {
-        eurekaClient.getNextServerFromEureka("USER-SERVER",false);
-        EurekaClientConfig eurekaClientConfig =eurekaClient.getEurekaClientConfig();
+//        eurekaClient.getNextServerFromEureka("USER-SERVER",false);
+//        EurekaClientConfig eurekaClientConfig =eurekaClient.getEurekaClientConfig();
         return userService.selectList();
     }
 }

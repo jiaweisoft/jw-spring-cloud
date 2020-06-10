@@ -6,7 +6,7 @@ eureka:
     lease-expiration-duration-in-seconds: 9 #90秒没有rennewal剔除
   client:
     service-url:
-      default-zone: http://eureka1:8761/eureka/,http://eureka3:8763/eureka/，http://eureka3:8763/eureka/
+      default-zone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
     healthcheck:
       enabled: true
 spring:

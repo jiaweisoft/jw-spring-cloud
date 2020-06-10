@@ -85,9 +85,9 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <spring.datasource.url>jdbc:mysql://localhost:3306/uc_push</spring.datasource.url>
-                <spring.datasource.username>root</spring.datasource.username>
-                <spring.datasource.password></spring.datasource.password>
+                <spring.datasource.url>jdbc:mysql://10.255.33.109:3306/uc_push</spring.datasource.url>
+                <spring.datasource.username>infra</spring.datasource.username>
+                <spring.datasource.password>pwd_infra</spring.datasource.password>
             </properties>
         </profile>
         <profile>
