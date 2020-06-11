@@ -1,6 +1,20 @@
 spring:
+  application:
+    name: jw-config-server
   cloud:
     config:
       server:
         git:
-          uri: git@github.com:jiaweisoft/jw-spring-cloud.git
+          uri: https://github.com/jiaweisoft/jw-config-github
+          searchPaths:
+          username: jiaweisoft@163.com
+          password: 2010080189you
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${eureka.instance.hostname}:----:${server.port}
+    lease-renewal-interval-in-seconds: 3 #每30秒一次renewal
+    lease-expiration-duration-in-seconds: 9 #90秒没有rennewal剔除
+  client:
+    service-url:
+      default-zone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
