@@ -9,6 +9,10 @@ spring:
           username: jiaweisoft@163.com
           password: 2010080189you
           search-paths: '{application}'
+  security:
+    user:
+      name: jiawei
+      password: jiawei
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}

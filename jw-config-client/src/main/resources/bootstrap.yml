@@ -12,3 +12,5 @@ spring:
       discovery:
         enabled: true #开启配置信息发现。
         service-id: jw-config-server  #指定配置中心的service-id，便于扩展为高可用配置集群。
+      username: jiawei
+      password: jiawei
