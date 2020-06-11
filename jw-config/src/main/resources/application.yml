@@ -5,10 +5,10 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/jiaweisoft/jw-config-github
-          searchPaths:
+          uri: https://github.com/jiaweisoft/jw-config-github.git  #{application}
           username: jiaweisoft@163.com
           password: 2010080189you
+          search-paths: '{application}'
 eureka:
   instance:
     hostname: ${spring.cloud.client.ip-address}
