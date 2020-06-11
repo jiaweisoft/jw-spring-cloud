@@ -3,4 +3,4 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/jiaweisoft/jw-spring-cloud/tree/master/jw-config-github
+          uri: git@github.com:jiaweisoft/jw-spring-cloud.git
