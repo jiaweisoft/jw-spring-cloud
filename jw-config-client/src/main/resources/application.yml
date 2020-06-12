@@ -1,6 +1,0 @@
-######rabbit my#################
-rabbitmq.host=${rabbitmq.addresses}
-rabbitmq.username=${rabbitmq.username}
-rabbitmq.password=${rabbitmq.password}
-rabbitmq.virtual-host.common=${rabbitmq.common.virtualHost}
-rabbitmq.virtual-host.infra=${rabbitmq.infra.virtualHost}

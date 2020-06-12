@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @tk.mybatis.spring.annotation.MapperScan({"com.jw.cloud.dao"})
 @SpringBootApplication(scanBasePackages = {"com.jw.cloud.service",
-        "com.jw.cloud.controller", "com.jw.cloud.dao"})
+        "com.jw.cloud.controller", "com.jw.cloud.dao","com.jw.cloud.config"})
 @EnableTransactionManagement
 @EnableEurekaClient
 public class UserServerApplication {
