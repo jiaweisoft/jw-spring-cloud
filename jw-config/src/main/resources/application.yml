@@ -9,6 +9,8 @@ spring:
           username: jiaweisoft@163.com
           password: 2010080189you
           search-paths: '{application}'
+    bus:
+      enabled: true
   security:
     user:
       name: jiawei
