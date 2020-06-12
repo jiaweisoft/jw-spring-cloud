@@ -22,3 +22,9 @@ eureka:
   client:
     service-url:
       default-zone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
+######rabbit my#################
+rabbitmq:
+  host: ${rabbitmq.addresses}
+  username: ${rabbitmq.username}
+  password: ${rabbitmq.password}
+  springCloudBus: ${rabbitmq.spring.cloud.bus}

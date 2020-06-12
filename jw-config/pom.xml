@@ -25,5 +25,35 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--rabbitmq配置-->
+                <rabbitmq.addresses>10.255.33.108:5674</rabbitmq.addresses>
+                <rabbitmq.username>admin</rabbitmq.username>
+                <rabbitmq.password>admin</rabbitmq.password>
+                <rabbitmq.spring.cloud.bus>/</rabbitmq.spring.cloud.bus>
+            </properties>
+        </profile>
+        <profile>
+            <id>sa</id>
+            <properties>
+                <!--rabbitmq配置-->
+                <rabbitmq.addresses>#{rabbitmq.addresses}</rabbitmq.addresses>
+                <rabbitmq.username>#{rabbitmq.username}</rabbitmq.username>
+                <rabbitmq.password>#{rabbitmq.password}</rabbitmq.password>
+                <rabbitmq.spring.cloud.bus>#{rabbitmq.spring.cloud.bus}</rabbitmq.spring.cloud.bus>
+            </properties>
+        </profile>
+    </profiles>
 </project>

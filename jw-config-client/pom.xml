@@ -24,6 +24,42 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--rabbitmq配置-->
+                <rabbitmq.addresses>localhost:15672</rabbitmq.addresses>
+                <rabbitmq.username>admin</rabbitmq.username>
+                <rabbitmq.password>admin</rabbitmq.password>
+                <rabbitmq.infra.virtualHost>vhost.infra</rabbitmq.infra.virtualHost>
+                <rabbitmq.common.virtualHost>vhost.common60</rabbitmq.common.virtualHost>
+            </properties>
+        </profile>
+        <profile>
+            <id>sa</id>
+            <properties>
+                <!--rabbitmq配置-->
+                <rabbitmq.addresses>#{rabbitmq.addresses}</rabbitmq.addresses>
+                <rabbitmq.username>#{rabbitmq.username}</rabbitmq.username>
+                <rabbitmq.password>#{rabbitmq.password}</rabbitmq.password>
+                <rabbitmq.infra.virtualHost>#{rabbitmq.infra.virtualHost}</rabbitmq.infra.virtualHost>
+                <rabbitmq.common.virtualHost>#{rabbitmq.common.virtualHost}</rabbitmq.common.virtualHost>
+            </properties>
+        </profile>
+    </profiles>
 </project>

@@ -14,3 +14,10 @@ spring:
         service-id: jw-config-server  #指定配置中心的service-id，便于扩展为高可用配置集群。
       username: jiawei
       password: jiawei
+management:
+  endpoint:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: '*'
