@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableEurekaClient
-@RibbonClient(name = "user-server1111",configuration = RibbonConfiguration.class)
+@RibbonClient(name = "USER-SERVER",configuration = RibbonConfiguration.class)
 @ComponentScan(excludeFilters = {
         @ComponentScan.Filter(type = FilterType.ANNOTATION, value = ExcludeFromComponentScan.class)})
 public class LoginApplication {

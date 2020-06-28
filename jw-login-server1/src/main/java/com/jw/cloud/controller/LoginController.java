@@ -16,12 +16,10 @@ import java.util.List;
  * @Description:
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/login1")
 public class LoginController {
     @Autowired
     private RestTemplate restTemplate;
-    @Autowired
-    private LoadBalancerClient loadBalancerClient;
 
     @GetMapping("/list")
     public List getUser() {

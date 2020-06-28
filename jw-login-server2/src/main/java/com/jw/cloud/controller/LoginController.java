@@ -17,7 +17,7 @@ import java.util.List;
  * @Description:
  */
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/login2")
 public class LoginController {
     @Autowired
     UserFeignClient userFeignClient;
