@@ -30,8 +30,10 @@ public class RabbitListenerTest implements MessageListener {
                                     durable = "true", autoDelete = "false", type = ExchangeTypes.DIRECT), key = "jw.test.k.direct")})
     public void onMessage(Message message) {
         try {
+            log.info("接收内容1 message:" + message.toString());
+            Thread.sleep(100000);
             JSONObject json = JSONObject.parseObject(new String(message.getBody()));
-            log.info("接收内容 msg:" + json.toJSONString());
+            log.info("接收内容2 msg:" + json.toJSONString());
             //Integer.parseInt("s");
         } catch (AmqpRejectAndDontRequeueException e) {
             log.error("处理异常 AmqpRejectAndDontRequeueException ", e);

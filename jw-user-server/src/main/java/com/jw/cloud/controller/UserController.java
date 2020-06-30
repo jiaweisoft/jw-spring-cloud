@@ -1,6 +1,7 @@
 package com.jw.cloud.controller;
 
 import com.jw.cloud.component.jms.send.SendUtilCommon;
+import com.jw.cloud.component.jms.send.SendUtilCommon2;
 import com.jw.cloud.entry.AcMenu;
 import com.jw.cloud.service.UserService;
 import com.netflix.discovery.EurekaClient;
@@ -36,6 +37,8 @@ public class UserController {
     @Autowired
     private SendUtilCommon sendUtilCommon;
 
+    @Autowired
+    private SendUtilCommon2 sendUtilCommon2;
     @Qualifier("eurekaClient")
     @GetMapping("/list")
     public List<AcMenu> list() {
@@ -47,6 +50,11 @@ public class UserController {
     @PostMapping("/sendMq")
     public String sentMq(String text, String exchangeName, String queueKey) {
         sendUtilCommon.sendMessage(text, exchangeName, queueKey);
+        return text;
+    }
+    @PostMapping("/sendMq2")
+    public String sentMq2(String text, String exchangeName, String queueKey) {
+        sendUtilCommon2.sendMessage(text, exchangeName, queueKey);
         return text;
     }
 }

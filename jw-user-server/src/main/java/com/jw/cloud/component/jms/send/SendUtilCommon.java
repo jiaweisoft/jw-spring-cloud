@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
  */
 @Component
 @Slf4j
-public class SendUtilCommon extends AbstractRabbitSend {
+public class SendUtilCommon extends AbstractRabbitSend  {
 
     @Autowired
     @Qualifier("rabbitTemplateCommon")

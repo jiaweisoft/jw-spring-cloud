@@ -60,7 +60,10 @@ public class RabbitMQConfig {
 
     @Bean(name = "rabbitTemplateCommon")
     public RabbitTemplate rabbitTemplateCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
-        return new RabbitTemplate(connectionFactoryCommon);
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactoryCommon);
+        //rabbitTemplate.setReceiveTimeout();
+        //rabbitTemplate.setRetryTemplate(retryTemplate());
+        return rabbitTemplate;
     }
 
     @Bean(name = "containerFactoryCommon")
@@ -122,6 +125,7 @@ public class RabbitMQConfig {
 
         factory.setConcurrentConsumers(1);
         factory.setMaxConcurrentConsumers(8);
+        //factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setTaskExecutor(myTaskExecutor);
         //factory.setChannelTransacted(true);
         factory.setAdviceChain(
