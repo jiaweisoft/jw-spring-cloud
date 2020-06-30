@@ -34,6 +34,7 @@ public class RabbitListenerTest implements MessageListener {
             //Thread.sleep(100000);
             JSONObject json = JSONObject.parseObject(new String(message.getBody()));
             //Integer.parseInt("s");
+            //throw new AmqpRejectAndDontRequeueException("AmqpRejectAndDontRequeueException");
         } catch (AmqpRejectAndDontRequeueException e) {
             log.error("处理异常 AmqpRejectAndDontRequeueException ", e);
             throw new AmqpRejectAndDontRequeueException(e);
