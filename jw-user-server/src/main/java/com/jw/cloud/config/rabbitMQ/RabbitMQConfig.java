@@ -43,55 +43,61 @@ public class RabbitMQConfig {
     @Qualifier("myTaskExecutor")
     private TaskExecutor myTaskExecutor;
 
-//    // common begin
-//    @Bean(value = "connectionFactoryCommon")
-//    @Primary
-//    public ConnectionFactory connectionFactoryCommon() {
-//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-//        connectionFactory.setAddresses(this.address);
-//        connectionFactory.setUsername(this.username);
-//        connectionFactory.setPassword(this.password);
-//        connectionFactory.setVirtualHost(this.virtualHostCommon);
-//        connectionFactory.setRequestedHeartBeat(15);
-//        return connectionFactory;
-//    }
-//
-//    @Bean(name = "rabbitTemplateCommon")
-//    public RabbitTemplate rabbitTemplateCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
-//        return new RabbitTemplate(connectionFactoryCommon);
-//    }
-//
-//    @Bean(name = "containerFactoryCommon")
-//    public SimpleRabbitListenerContainerFactory containerFactoryCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
-//        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryCommon);
-//        return factory;
-//    }
-//    // common end
-//    //infra begin
-//    @Bean(value = "connectionFactoryInfra")
-//    public ConnectionFactory connectionFactoryInfra() {
-//        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-//        connectionFactory.setAddresses(this.address);
-//        connectionFactory.setUsername(this.username);
-//        connectionFactory.setPassword(this.password);
-//        connectionFactory.setVirtualHost(this.virtualHostInfra);
-//        connectionFactory.setRequestedHeartBeat(15);
-//        return connectionFactory;
-//    }
-//    @Primary
-//    @Bean(name = "rabbitTemplateInfra")
-//    public RabbitTemplate rabbitTemplateInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-//        return new RabbitTemplate(connectionFactoryInfra);
-//    }
-//
-//    @Bean(name = "containerFactoryInfra")
-//    public SimpleRabbitListenerContainerFactory containerFactoryInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-//        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryInfra);
-//        return factory;
-//    }
-//    // infra end
-    //cloud bus / begin
+    // common begin
+    @Bean(value = "connectionFactoryCommon")
+    @Primary
+    public ConnectionFactory connectionFactoryCommon() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setAddresses(this.address);
+        connectionFactory.setUsername(this.username);
+        connectionFactory.setPassword(this.password);
+        connectionFactory.setVirtualHost(this.virtualHostCommon);
+        connectionFactory.setRequestedHeartBeat(15);
+        connectionFactory.setPublisherConfirms(true); // message-exchange
+        connectionFactory.setPublisherReturns(true);  // exchage-queue
+        return connectionFactory;
+    }
+
+    @Bean(name = "rabbitTemplateCommon")
+    public RabbitTemplate rabbitTemplateCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
+        return new RabbitTemplate(connectionFactoryCommon);
+    }
+
+    @Bean(name = "containerFactoryCommon")
+    public SimpleRabbitListenerContainerFactory containerFactoryCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
+        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryCommon);
+        return factory;
+    }
+
+    // common end
+    //infra begin
+    @Bean(value = "connectionFactoryInfra")
+    public ConnectionFactory connectionFactoryInfra() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setAddresses(this.address);
+        connectionFactory.setUsername(this.username);
+        connectionFactory.setPassword(this.password);
+        connectionFactory.setVirtualHost(this.virtualHostInfra);
+        connectionFactory.setRequestedHeartBeat(15);
+        return connectionFactory;
+    }
+
+    @Primary
+    @Bean(name = "rabbitTemplateInfra")
+    public RabbitTemplate rabbitTemplateInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
+        return new RabbitTemplate(connectionFactoryInfra);
+    }
+
+    @Bean(name = "containerFactoryInfra")
+    public SimpleRabbitListenerContainerFactory containerFactoryInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
+        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryInfra);
+        return factory;
+    }
+
+    // infra end
+    // cloud bus begin
     @Bean(value = "connectionFactoryBus")
+
     public ConnectionFactory connectionFactoryBus() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
         connectionFactory.setAddresses(this.address);
@@ -107,6 +113,7 @@ public class RabbitMQConfig {
         SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryBus);
         return factory;
     }
+
     // cloud bus / end
     public SimpleRabbitListenerContainerFactory getMySimpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
@@ -116,7 +123,7 @@ public class RabbitMQConfig {
         factory.setConcurrentConsumers(1);
         factory.setMaxConcurrentConsumers(8);
         factory.setTaskExecutor(myTaskExecutor);
-        factory.setChannelTransacted(true);
+        //factory.setChannelTransacted(true);
         factory.setAdviceChain(
                 RetryInterceptorBuilder
                         .stateless()
