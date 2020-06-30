@@ -27,6 +27,8 @@ public class SendUtilCommon2 extends AbstractRabbitSend implements RabbitTemplat
         try {
             Message message = wrapMessage(text);
             log.info("发送内容 text:{}", text);
+            rabbitTemplateCommon.setConfirmCallback(this);
+            rabbitTemplateCommon.setReturnCallback(this);
             rabbitTemplateCommon.send(exchangeName, queueKey, message);
         } catch (Exception e) {
             log.error("发送失败,text:{}", text, e);
@@ -45,5 +47,6 @@ public class SendUtilCommon2 extends AbstractRabbitSend implements RabbitTemplat
     @Override
     public void returnedMessage(Message message, int i, String s, String s1, String s2) {
         String correlationId = message.getMessageProperties().getCorrelationId();
+        System.out.println(correlationId);
     }
 }
