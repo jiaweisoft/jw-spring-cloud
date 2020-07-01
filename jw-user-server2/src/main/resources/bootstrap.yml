@@ -1,0 +1,31 @@
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${eureka.instance.hostname}:----:${server.port}
+    lease-renewal-interval-in-seconds: 3 #每30秒一次renewal
+    lease-expiration-duration-in-seconds: 9 #90秒没有rennewal剔除
+  client:
+    service-url:
+      default-zone: http://eureka1:8761/eureka/,http://eureka2:8762/eureka/
+spring:
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        enabled: true #开启配置信息发现。
+        service-id: jw-config-server  #指定配置中心的service-id，便于扩展为高可用配置集群。
+      username: jiawei
+      password: jiawei
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
