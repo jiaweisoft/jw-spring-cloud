@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer;
+import org.springframework.amqp.rabbit.transaction.RabbitTransactionManager;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,8 +62,6 @@ public class RabbitMQConfig {
     @Bean(name = "rabbitTemplateCommon")
     public RabbitTemplate rabbitTemplateCommon(@Qualifier("connectionFactoryCommon") ConnectionFactory connectionFactoryCommon) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactoryCommon);
-        //rabbitTemplate.setReceiveTimeout();
-        //rabbitTemplate.setRetryTemplate(retryTemplate());
         return rabbitTemplate;
     }
 
@@ -82,7 +81,13 @@ public class RabbitMQConfig {
         connectionFactory.setPassword(this.password);
         connectionFactory.setVirtualHost(this.virtualHostInfra);
         connectionFactory.setRequestedHeartBeat(15);
+        //connectionFactory.setPublisherConfirms(false); // message-exchange
+        //connectionFactory.setPublisherReturns(false);  // exchage-queue
         return connectionFactory;
+    }
+    @Bean("rabbitTransactionManager")
+    public RabbitTransactionManager rabbitTransactionManager(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
+        return new RabbitTransactionManager(connectionFactoryInfra);
     }
 
     @Primary
@@ -93,7 +98,7 @@ public class RabbitMQConfig {
 
     @Bean(name = "containerFactoryInfra")
     public SimpleRabbitListenerContainerFactory containerFactoryInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryInfra);
+        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactoryTx(connectionFactoryInfra);
         return factory;
     }
 
@@ -116,8 +121,8 @@ public class RabbitMQConfig {
         SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactory(connectionFactoryBus);
         return factory;
     }
-
     // cloud bus / end
+
     public SimpleRabbitListenerContainerFactory getMySimpleRabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
@@ -138,7 +143,26 @@ public class RabbitMQConfig {
         return factory;
     }
 
+    // cloud bus / end
+    public SimpleRabbitListenerContainerFactory getMySimpleRabbitListenerContainerFactoryTx(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
 
+        factory.setConcurrentConsumers(1);
+        factory.setMaxConcurrentConsumers(8);
+        //factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        factory.setTaskExecutor(myTaskExecutor);
+        factory.setChannelTransacted(true);
+        factory.setAdviceChain(
+                RetryInterceptorBuilder
+                        .stateless()
+                        .recoverer(new RejectAndDontRequeueRecoverer())
+                        .retryOperations(retryTemplate())
+                        .build()
+        );
+        return factory;
+    }
     @Bean
     public RetryTemplate retryTemplate() {
         RetryTemplate retryTemplate = new RetryTemplate();
