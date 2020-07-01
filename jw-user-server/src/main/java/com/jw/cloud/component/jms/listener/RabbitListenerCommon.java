@@ -25,9 +25,9 @@ public class RabbitListenerCommon implements MessageListener {
     @SneakyThrows
     @RabbitListener(containerFactory = "containerFactoryCommon",
             bindings = {
-                    @QueueBinding(value = @Queue(value = "jw.test.queue.common.direct", durable = "true", autoDelete = "false"),
-                            exchange = @Exchange(value = "jw.test.exchange.common.direct",
-                                    durable = "true", autoDelete = "false", type = ExchangeTypes.DIRECT), key = "jw.test.k.common.direct")})
+                    @QueueBinding(value = @Queue(value = "jw.queue.direct", durable = "true", autoDelete = "false"),
+                            exchange = @Exchange(value = "jw.exchange",
+                                    durable = "true", autoDelete = "false", type = ExchangeTypes.DIRECT), key = "jw.k.direct")})
     public void onMessage(Message message) {
         try {
             log.info("接收内容 message:" + message.toString());

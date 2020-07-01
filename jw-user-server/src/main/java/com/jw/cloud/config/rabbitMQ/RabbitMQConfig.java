@@ -71,38 +71,6 @@ public class RabbitMQConfig {
         return factory;
     }
 
-    // common end
-    //infra begin
-    @Bean(value = "connectionFactoryInfra")
-    public ConnectionFactory connectionFactoryInfra() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setAddresses(this.address);
-        connectionFactory.setUsername(this.username);
-        connectionFactory.setPassword(this.password);
-        connectionFactory.setVirtualHost(this.virtualHostInfra);
-        connectionFactory.setRequestedHeartBeat(15);
-        //connectionFactory.setPublisherConfirms(false); // message-exchange
-        //connectionFactory.setPublisherReturns(false);  // exchage-queue
-        return connectionFactory;
-    }
-    @Bean("rabbitTransactionManager")
-    public RabbitTransactionManager rabbitTransactionManager(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-        return new RabbitTransactionManager(connectionFactoryInfra);
-    }
-
-    @Primary
-    @Bean(name = "rabbitTemplateInfra")
-    public RabbitTemplate rabbitTemplateInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-        return new RabbitTemplate(connectionFactoryInfra);
-    }
-
-    @Bean(name = "containerFactoryInfra")
-    public SimpleRabbitListenerContainerFactory containerFactoryInfra(@Qualifier("connectionFactoryInfra") ConnectionFactory connectionFactoryInfra) {
-        SimpleRabbitListenerContainerFactory factory = getMySimpleRabbitListenerContainerFactoryTx(connectionFactoryInfra);
-        return factory;
-    }
-
-    // infra end
     // cloud bus begin
     @Bean(value = "connectionFactoryBus")
 
@@ -132,7 +100,6 @@ public class RabbitMQConfig {
         factory.setMaxConcurrentConsumers(8);
         //factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
         factory.setTaskExecutor(myTaskExecutor);
-        //factory.setChannelTransacted(true);
         factory.setAdviceChain(
                 RetryInterceptorBuilder
                         .stateless()
@@ -143,26 +110,6 @@ public class RabbitMQConfig {
         return factory;
     }
 
-    // cloud bus / end
-    public SimpleRabbitListenerContainerFactory getMySimpleRabbitListenerContainerFactoryTx(ConnectionFactory connectionFactory) {
-        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-
-        factory.setConcurrentConsumers(1);
-        factory.setMaxConcurrentConsumers(8);
-        //factory.setAcknowledgeMode(AcknowledgeMode.AUTO);
-        factory.setTaskExecutor(myTaskExecutor);
-        factory.setChannelTransacted(true);
-        factory.setAdviceChain(
-                RetryInterceptorBuilder
-                        .stateless()
-                        .recoverer(new RejectAndDontRequeueRecoverer())
-                        .retryOperations(retryTemplate())
-                        .build()
-        );
-        return factory;
-    }
     @Bean
     public RetryTemplate retryTemplate() {
         RetryTemplate retryTemplate = new RetryTemplate();

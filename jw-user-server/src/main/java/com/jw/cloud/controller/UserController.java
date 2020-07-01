@@ -1,7 +1,6 @@
 package com.jw.cloud.controller;
 
 import com.jw.cloud.component.jms.send.SendUtilCommon;
-import com.jw.cloud.component.jms.send.SendUtilInfra;
 import com.jw.cloud.entry.AcMenu;
 import com.jw.cloud.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +33,6 @@ public class UserController {
     @Autowired
     private SendUtilCommon sendUtilCommon;
 
-    @Autowired
-    private SendUtilInfra sendUtilInfra;
     @Qualifier("eurekaClient")
     @GetMapping("/list")
     public List<AcMenu> list() {
@@ -47,11 +44,6 @@ public class UserController {
     @PostMapping("/sendCommon")
     public String sendCommonsendCommon(String text, String exchangeName, String queueKey) {
         sendUtilCommon.sendMessage(text, exchangeName, queueKey);
-        return text;
-    }
-    @PostMapping("/sendInfra")
-    public String sendInfra(String text, String exchangeName, String queueKey) {
-        sendUtilInfra.sendMessage(text, exchangeName, queueKey);
         return text;
     }
 }

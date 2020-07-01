@@ -6,8 +6,8 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.UUID;
@@ -26,19 +26,14 @@ public class SendUtilCommon extends AbstractRabbitSend {
     @Qualifier("rabbitTemplateCommon")
     private RabbitTemplate rabbitTemplateCommon;
 
-
     public void sendMessage(final String text, final String exchangeName, final String queueKey) {
-        try {
-            Message message = wrapMessage(text);
-            log.info("发送内容 text:{}", text);
-            CorrelationData c = new CorrelationData(UUID.randomUUID().toString());
-            rabbitTemplateCommon.send(exchangeName, queueKey, message, c);
-            log.info("发送内容成功啦");
-        } catch (Exception e) {
-            log.error("发送失败,text:{}", text, e);
-            throw new RuntimeException(e);
-        }
+        Message message = wrapMessage(text);
+        log.info("发送内容 text:{}", text);
+        CorrelationData c = new CorrelationData(UUID.randomUUID().toString());
+        rabbitTemplateCommon.send(exchangeName, queueKey, message, c);
+        log.info("发送内容成功啦");
     }
+
 
     @PostConstruct
     private void initRabbitTemplate() {
@@ -54,8 +49,7 @@ public class SendUtilCommon extends AbstractRabbitSend {
         rabbitTemplateCommon.setMandatory(true);
         rabbitTemplateCommon.setReturnCallback((message, replyCode, replyText, exchange, routingKey) -> {
             String correlationId = message.getMessageProperties().getCorrelationId();
-            log.debug("消息：{} 发送失败, 应答码：{} 原因：{} 交换机: {}  路由键: {}",
-                    correlationId, replyCode, replyText, exchange, routingKey);
+            log.debug("消息：{} 发送失败, 应答码：{} 原因：{} 交换机: {}  路由键: {}",correlationId, replyCode, replyText, exchange, routingKey);
         });
     }
 }
